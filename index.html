@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sascco.build · AI Solutions Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Dark theme tokens (default) ── */
+:root {
+  --bg:          #0c0b0f;
+  --bg-1:        #111018;
+  --bg-card:     #17151f;
+  --bg-card-2:   #1c1a25;
+  --border:      rgba(220,212,200,0.07);
+  --border-md:   rgba(220,212,200,0.13);
+  --border-gold: rgba(184,154,94,0.28);
+  --text:        #e6dfd6;
+  --text-2:      #8a8490;
+  --text-3:      #4a4650;
+  --gold:        #b89a5e;
+  --gold-lt:     #c9ae7a;
+  --gold-dim:    rgba(184,154,94,0.08);
+  --gold-dim2:   rgba(184,154,94,0.14);
+  --shadow-card: 0 0 0 1px rgba(220,212,200,0.06);
+  --btn-text:    #0c0b0f;
+  --hero-glow:   rgba(184,154,94,0.05);
+}
+
+/* ── Light theme tokens ── */
+html[data-theme="light"] {
+  --bg:          #f6f3ee;
+  --bg-1:        #edeae3;
+  --bg-card:     #ffffff;
+  --bg-card-2:   #e4e0d8;
+  --border:      rgba(30,18,8,0.09);
+  --border-md:   rgba(30,18,8,0.15);
+  --border-gold: rgba(130,100,45,0.32);
+  --text:        #18140e;
+  --text-2:      #5a5248;
+  --text-3:      #9a8e80;
+  --gold:        #8c6e35;
+  --gold-lt:     #a07f40;
+  --gold-dim:    rgba(130,100,45,0.07);
+  --gold-dim2:   rgba(130,100,45,0.13);
+  --shadow-card: 0 2px 12px rgba(30,18,8,0.07);
+  --btn-text:    #ffffff;
+  --hero-glow:   rgba(130,100,45,0.06);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+::selection { background: rgba(184,154,94,0.22); color: var(--text); }
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 4px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  height: 60px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, border-color 0.4s ease;
+  gap: 1.5rem;
+}
+nav.scrolled {
+  background: rgba(12,11,15,0.88);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom-color: var(--border);
+}
+html[data-theme="light"] nav.scrolled {
+  background: rgba(246,243,238,0.9);
+}
+.nav-mark {
+  font-family: 'Cormorant', Georgia, serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-mark em { color: var(--gold); font-style: normal; }
+
+.nav-links {
+  display: flex; align-items: center; gap: 2.25rem;
+  list-style: none; margin-left: auto;
+}
+.nav-links a {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--text-2);
+  letter-spacing: 0.07em;
+  text-transform: lowercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; left: 0; bottom: -2px; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.22s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  padding: 5px 14px !important;
+  border: 1px solid var(--border-gold) !important;
+  border-radius: 6px !important;
+  color: var(--gold) !important;
+  font-size: 11px !important;
+  transition: background 0.2s !important;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--gold-dim2) !important; }
+
+/* ── Nav controls (theme + lang toggles) ── */
+.nav-controls {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.ctrl-btn {
+  display: flex; align-items: center; justify-content: center;
+  height: 30px; padding: 0 10px;
+  border: 1px solid var(--border-md);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  font-family: 'Fira Code', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  gap: 5px;
+}
+.ctrl-btn:hover {
+  border-color: var(--border-gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+.ctrl-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+/* lang toggle */
+#langToggle .lang-active { color: var(--gold); }
+#langToggle .lang-sep    { color: var(--text-3); margin: 0 1px; }
+#langToggle .lang-other  { color: var(--text-3); }
+
+/* mobile toggle */
+.nav-toggle {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px; flex-shrink: 0;
+}
+.nav-toggle span {
+  display: block; width: 20px; height: 1.5px;
+  background: var(--text-2); border-radius: 2px;
+  transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px,4.5px); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px,-4.5px); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 9rem 2.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute; top: -10%; left: 58%;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, var(--hero-glow) 0%, transparent 65%);
+  pointer-events: none;
+  transition: background 0.35s ease;
+}
+.hero-inner {
+  max-width: 1060px; margin: 0 auto; width: 100%;
+  position: relative; padding-left: 2.5rem;
+}
+.hero-rule {
+  position: absolute; left: 0; top: -2rem; bottom: -2rem;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%, var(--border) 15%,
+    var(--border-gold) 42%, var(--border) 80%, transparent 100%);
+}
+.hero-kicker {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Fira Code', monospace;
+  font-size: 10.5px; color: var(--gold);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 1.75rem;
+}
+.kicker-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: blink 2.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+.hero-h1 {
+  font-family: 'Cormorant', Georgia, serif;
+  font-size: clamp(3.2rem, 5.8vw, 5.3rem);
+  font-weight: 600; line-height: 1.02;
+  letter-spacing: -0.02em; color: var(--text);
+  margin-bottom: 1.5rem;
+}
+.hero-h1 em { font-style: italic; color: var(--gold); }
+.hero-p {
+  font-size: 1rem; color: var(--text-2);
+  max-width: 500px; line-height: 1.85;
+  font-weight: 300; margin-bottom: 2.75rem;
+}
+.hero-actions { display: flex; align-items: center; gap: 1.75rem; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 0.7rem 1.55rem;
+  background: var(--gold); color: var(--btn-text);
+  font-family: 'Fira Code', monospace;
+  font-size: 11.5px; font-weight: 500; letter-spacing: 0.06em;
+  border-radius: 8px; border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+html[data-theme="light"] .btn-primary { color: #fff; }
+.btn-primary:hover {
+  background: var(--gold-lt);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(184,154,94,0.22);
+}
+.btn-primary svg { width: 12px; height: 12px; transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(2px); }
+.btn-ghost {
+  font-family: 'Fira Code', monospace; font-size: 11.5px;
+  color: var(--text-2); letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 7px;
+  transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--text); }
+.btn-ghost svg { transition: transform 0.2s; }
+.btn-ghost:hover svg { transform: translate(2px,-2px); }
+.hero-meta {
+  margin-top: 4rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 3.5rem;
+}
+.meta-n {
+  font-family: 'Cormorant', serif; font-size: 2.2rem;
+  font-weight: 600; color: var(--text);
+  line-height: 1; margin-bottom: 4px;
+}
+.meta-n em { font-style: normal; color: var(--gold); }
+.meta-l {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.hero-scroll {
+  position: absolute; right: 0; bottom: 3rem;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0.38;
+}
+.hero-scroll span {
+  font-family: 'Fira Code', monospace; font-size: 9px;
+  letter-spacing: 0.14em; color: var(--text-3);
+  writing-mode: vertical-lr; text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--border-gold), transparent);
+  animation: scroll-drop 2.2s ease-in-out infinite;
+}
+@keyframes scroll-drop {
+  0%   { transform:scaleY(0); transform-origin:top;    opacity:0; }
+  40%  { transform:scaleY(1); transform-origin:top;    opacity:1; }
+  80%  { transform:scaleY(1); transform-origin:bottom; opacity:1; }
+  100% { transform:scaleY(0); transform-origin:bottom; opacity:0; }
+}
+
+/* ── Section shared ── */
+.s-wrap { max-width: 1060px; margin: 0 auto; padding: 6.5rem 2.5rem; }
+.s-eyebrow {
+  font-family: 'Fira Code', monospace; font-size: 10px;
+  color: var(--gold); letter-spacing: 0.16em;
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.s-title {
+  font-family: 'Cormorant', serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.55rem);
+  font-weight: 600; line-height: 1.1;
+  letter-spacing: -0.02em; color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.s-sub {
+  font-size: 14.5px; color: var(--text-2);
+  font-weight: 300; max-width: 460px; line-height: 1.75;
+}
+
+/* ── SKILLS ── */
+#skills { background: var(--bg-1); }
+.skills-grid {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; margin-top: 3rem;
+  box-shadow: var(--shadow-card);
+}
+.sk {
+  background: var(--bg-1);
+  padding: 2rem 1.85rem 2.1rem;
+  transition: background 0.22s; position: relative; overflow: hidden;
+}
+.sk::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.sk:hover { background: var(--bg-card); }
+.sk:hover::before { opacity: 1; }
+.sk-num {
+  font-family: 'Fira Code', monospace; font-size: 10px;
+  color: var(--text-3); letter-spacing: 0.1em; margin-bottom: 0.55rem;
+}
+.sk-title {
+  font-family: 'Cormorant', serif; font-size: 1.2rem;
+  font-weight: 600; color: var(--text);
+  margin-bottom: 1.1rem; letter-spacing: -0.01em; line-height: 1.2;
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-family: 'Fira Code', monospace; font-size: 10.5px;
+  padding: 3px 9px; border: 1px solid var(--border-md);
+  border-radius: 4px; color: var(--text-2); letter-spacing: 0.02em;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.tag:hover { border-color: var(--border-gold); color: var(--gold); background: var(--gold-dim); }
+
+/* ── PROJECTS ── */
+#projects { background: var(--bg); }
+.case {
+  margin-top: 3rem; border: 1px solid var(--border-md);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.3s;
+}
+.case:hover { border-color: var(--border-gold); }
+.case-bar {
+  background: var(--bg-1); border-bottom: 1px solid var(--border);
+  padding: 1.2rem 2.25rem;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.case-bar-left { display: flex; flex-direction: column; gap: 3px; }
+.case-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'Fira Code', monospace; font-size: 10px;
+  color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.case-badge::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 6px var(--gold);
+}
+.case-role {
+  font-family: 'Fira Code', monospace; font-size: 10.5px;
+  color: var(--text-3); letter-spacing: 0.05em;
+}
+.tech-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tech-chip {
+  font-family: 'Fira Code', monospace; font-size: 10.5px;
+  padding: 3px 9px; background: var(--bg-card);
+  border: 1px solid var(--border-md); border-radius: 4px;
+  color: var(--text-2);
+  transition: border-color 0.18s, color 0.18s;
+}
+.tech-chip:hover { border-color: var(--border-gold); color: var(--gold); }
+.case-body { padding: 2.75rem 2.25rem 2.5rem; }
+.case-title {
+  font-family: 'Cormorant', serif;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 600; line-height: 1.18;
+  letter-spacing: -0.02em; color: var(--text);
+  max-width: 700px; margin-bottom: 2.25rem;
+}
+.exec {
+  border-left: 2px solid var(--gold);
+  padding: 1.3rem 1.75rem;
+  background: var(--gold-dim);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 2.5rem;
+}
+.exec-lbl {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--gold); letter-spacing: 0.16em;
+  text-transform: uppercase; margin-bottom: 0.55rem;
+}
+.exec p { font-size: 15px; color: var(--text-2); font-weight: 300; line-height: 1.85; font-style: italic; }
+.sub-hd {
+  font-family: 'Cormorant', serif; font-size: 1.05rem;
+  font-weight: 600; color: var(--text); letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.sub-hd::before {
+  content: ''; display: block; width: 18px; height: 1px;
+  background: var(--gold); opacity: 0.5;
+}
+.arch-list {
+  border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-card);
+}
+.arch-row {
+  display: grid; grid-template-columns: 60px 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.18s;
+}
+.arch-row:last-child { border-bottom: none; }
+.arch-row:hover { background: var(--bg-card); }
+.arch-num-col {
+  display: flex; flex-direction: column;
+  align-items: center; padding: 1.6rem 0;
+  border-right: 1px solid var(--border); gap: 0;
+}
+.n-circle {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid var(--border-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--gold); flex-shrink: 0;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.arch-row:hover .n-circle { background: var(--gold-dim2); box-shadow: 0 0 10px rgba(184,154,94,0.15); }
+.n-line { width: 1px; flex: 1; min-height: 10px; background: var(--border); margin-top: 6px; }
+.arch-row:last-child .n-line { display: none; }
+.arch-content { padding: 1.6rem 1.85rem; }
+.arch-layer {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--text-3); letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.arch-item-title {
+  font-family: 'Cormorant', serif; font-size: 1rem;
+  font-weight: 600; color: var(--text);
+  margin-bottom: 0.45rem; line-height: 1.25;
+}
+.arch-item-title span { color: var(--text-3); font-weight: 400; font-size: 0.88rem; }
+.arch-desc { font-size: 13.5px; color: var(--text-2); font-weight: 300; line-height: 1.78; }
+.case-rule { height: 1px; background: var(--border); margin: 2.25rem 0; }
+.hl-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+}
+.hl {
+  background: var(--bg-1); padding: 1.75rem 1.65rem;
+  transition: background 0.18s; position: relative; overflow: hidden;
+}
+.hl::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.hl:hover { background: var(--bg-card-2); }
+.hl:hover::after { opacity: 1; }
+.hl-kicker {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--gold); letter-spacing: 0.14em;
+  text-transform: uppercase; margin-bottom: 0.55rem; opacity: 0.75;
+}
+.hl-title {
+  font-family: 'Cormorant', serif; font-size: 1.08rem;
+  font-weight: 600; color: var(--text);
+  margin-bottom: 0.65rem; line-height: 1.22; letter-spacing: -0.01em;
+}
+.hl-desc { font-size: 13px; color: var(--text-2); font-weight: 300; line-height: 1.78; }
+
+/* ── CONTACT ── */
+#contact { background: var(--bg-1); }
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1.15fr;
+  gap: 4.5rem; margin-top: 3rem; align-items: start;
+}
+.cinfo-title {
+  font-family: 'Cormorant', serif; font-size: 1.45rem;
+  font-weight: 600; color: var(--text);
+  margin-bottom: 0.75rem; line-height: 1.25; letter-spacing: -0.01em;
+}
+.cinfo-title em { font-style: italic; color: var(--gold); }
+.cinfo-p { font-size: 14.5px; color: var(--text-2); font-weight: 300; line-height: 1.82; margin-bottom: 2rem; }
+.social-col { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.sl {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.95rem 1.15rem; color: var(--text-2);
+  border-bottom: 1px solid var(--border); font-size: 13.5px;
+  transition: background 0.18s, color 0.18s;
+}
+.sl:last-child { border-bottom: none; }
+.sl:hover { background: var(--bg-card); color: var(--text); }
+.sl-icon {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: var(--bg-card); border: 1px solid var(--border-md);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--text-2);
+  transition: border-color 0.18s, color 0.18s;
+}
+.sl:hover .sl-icon { border-color: var(--border-gold); color: var(--gold); }
+.sl-name { font-family: 'Fira Code', monospace; font-size: 11.5px; flex: 1; letter-spacing: 0.04em; }
+.sl-val  { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-3); }
+.sl-arr  { font-size: 13px; color: var(--text-3); transition: transform 0.2s, color 0.2s; }
+.sl:hover .sl-arr { transform: translate(2px,-2px); color: var(--gold); }
+.cform { display: flex; flex-direction: column; gap: 1rem; }
+.frow  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg    { display: flex; flex-direction: column; gap: 5px; }
+.flabel {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--text-3); letter-spacing: 0.12em; text-transform: uppercase;
+}
+.finput, .ftextarea {
+  background: var(--bg-card); border: 1px solid var(--border-md);
+  border-radius: 8px; padding: 0.72rem 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--text); outline: none; resize: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.finput::placeholder, .ftextarea::placeholder { color: var(--text-3); }
+.finput:focus, .ftextarea:focus {
+  border-color: var(--border-gold);
+  background: var(--bg-card-2);
+  box-shadow: 0 0 0 3px rgba(184,154,94,0.08);
+}
+.ftextarea { min-height: 115px; }
+.fsubmit {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0.72rem 1.6rem;
+  background: var(--gold); color: #fff;
+  font-family: 'Fira Code', monospace; font-size: 11.5px;
+  font-weight: 500; letter-spacing: 0.07em;
+  border: none; border-radius: 8px; cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.fsubmit:hover {
+  background: var(--gold-lt);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(184,154,94,0.2);
+}
+#fmsg {
+  font-family: 'Fira Code', monospace; font-size: 11px;
+  color: var(--gold); margin-top: 4px; display: none; letter-spacing: 0.04em;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 2.5rem;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.foot-l { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.06em; }
+.foot-r { font-family: 'Cormorant', serif; font-style: italic; font-size: 13px; color: var(--text-3); }
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.07s; }
+.reveal-d2 { transition-delay: 0.14s; }
+.reveal-d3 { transition-delay: 0.21s; }
+.reveal-d4 { transition-delay: 0.28s; }
+
+/* ── Hero entry animations ── */
+@keyframes up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+.hero-kicker  { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.15s; }
+.hero-h1      { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.25s; }
+.hero-p       { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.35s; }
+.hero-actions { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.45s; }
+.hero-meta    { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.55s; }
+.hero-scroll  { animation: up 0.65s cubic-bezier(0.16,1,0.3,1) both 0.8s; }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  nav { padding: 0 1.25rem; gap: 0.75rem; }
+  .nav-links {
+    display: none; position: absolute; top: 60px; left: 0; right: 0;
+    flex-direction: column; gap: 0; margin-left: 0;
+    background: rgba(12,11,15,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+  }
+  html[data-theme="light"] .nav-links { background: rgba(246,243,238,0.98); }
+  .nav-links.open { display: flex; }
+  .nav-links li { border-bottom: 1px solid var(--border); }
+  .nav-links a  { display: block; padding: 0.85rem 1.5rem; }
+  .nav-links a::after { display: none; }
+  .nav-cta { margin: 0.75rem 1.5rem; }
+  .nav-toggle { display: flex; }
+  .nav-mark { font-size: 0.95rem; }
+
+  #hero { padding: 8rem 1.25rem 5rem; }
+  .hero-inner { padding-left: 1.5rem; }
+  .hero-scroll { display: none; }
+  .hero-meta { gap: 2rem; flex-wrap: wrap; }
+  .s-wrap { padding: 5rem 1.25rem; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .hl-grid { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .frow { grid-template-columns: 1fr; }
+  .case-body { padding: 1.75rem 1.25rem; }
+  .case-bar { padding: 1.1rem 1.25rem; }
+  footer { padding: 1.5rem 1.25rem; }
+}
+@media (max-width: 480px) {
+  .hero-h1 { font-size: 2.75rem; }
+  .hero-meta { gap: 1.5rem; }
+  .ctrl-btn { padding: 0 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <a href="#" class="nav-mark">Sascco<em>.</em>build</a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#skills"   data-i18n="nav.stack">stack</a></li>
+    <li><a href="#projects" data-i18n="nav.work">work</a></li>
+    <li><a href="#contact"  data-i18n="nav.contact">contact</a></li>
+    <li><a href="#contact"  class="nav-cta" data-i18n="nav.cta">engage</a></li>
+  </ul>
+
+  <!-- Controls -->
+  <div class="nav-controls">
+    <!-- Theme toggle -->
+    <button class="ctrl-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+      <!-- moon icon (shown in dark mode) -->
+      <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+      </svg>
+      <!-- sun icon (shown in light mode) -->
+      <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" style="display:none">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+      </svg>
+    </button>
+
+    <!-- Language toggle -->
+    <button class="ctrl-btn" id="langToggle" aria-label="Switch language">
+      <span class="lang-active" id="langActive">EN</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-other" id="langOther">ES</span>
+    </button>
+  </div>
+
+  <div class="nav-toggle" id="navToggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-rule"></div>
+
+    <p class="hero-kicker">
+      <span class="kicker-dot"></span>
+      <span data-i18n="hero.kicker">Open to new engagements</span>
+    </p>
+
+    <h1 class="hero-h1" data-i18n-html="hero.h1">
+      Autonomous<br>backend systems<br>that <em>solve</em> things.
+    </h1>
+
+    <p class="hero-p" data-i18n="hero.p">
+      AI Solutions Engineer and Automation Architect building
+      production-ready, self-operating systems for high-stakes
+      business challenges — without the manual overhead.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">
+        <span data-i18n="hero.cta1">View Case Study</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <span data-i18n="hero.cta2">Get in touch</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-meta">
+      <div>
+        <div class="meta-n" data-i18n-html="hero.stat1.n">5<em>+</em></div>
+        <div class="meta-l" data-i18n="hero.stat1.l">Integrated system layers</div>
+      </div>
+      <div>
+        <div class="meta-n" data-i18n-html="hero.stat2.n">0<em>-UI</em></div>
+        <div class="meta-l" data-i18n="hero.stat2.l">Delivery principle</div>
+      </div>
+      <div>
+        <div class="meta-n">∞</div>
+        <div class="meta-l" data-i18n="hero.stat3.l">Tenant scalability</div>
+      </div>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+      <span data-i18n="scroll">scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="s-wrap">
+    <p class="s-eyebrow reveal"     data-i18n="skills.eyebrow">Technical Stack</p>
+    <h2 class="s-title reveal reveal-d1" data-i18n="skills.title">Engineering Expertise</h2>
+    <p class="s-sub reveal reveal-d2"   data-i18n="skills.sub">End-to-end capability across orchestration, AI, data, and secure API development.</p>
+
+    <div class="skills-grid">
+      <div class="sk reveal reveal-d1">
+        <div class="sk-num">01</div>
+        <div class="sk-title" data-i18n="sk1.title">Workflow Orchestration</div>
+        <div class="tag-row">
+          <span class="tag">n8n</span><span class="tag">Make.com</span>
+          <span class="tag" data-i18n="tag.async">Async Pipelines</span>
+          <span class="tag" data-i18n="tag.cond">Conditional Logic</span>
+          <span class="tag" data-i18n="tag.sched">Scheduled Triggers</span>
+          <span class="tag">OAuth2 Handshakes</span>
+        </div>
+      </div>
+      <div class="sk reveal reveal-d2">
+        <div class="sk-num">02</div>
+        <div class="sk-title" data-i18n="sk2.title">LLM Integration &amp; Prompt Engineering</div>
+        <div class="tag-row">
+          <span class="tag">Google Gemini</span><span class="tag">Claude API</span>
+          <span class="tag">OpenAI</span><span class="tag">NLP / Sentiment</span>
+          <span class="tag" data-i18n="tag.struct">Structured Output</span>
+          <span class="tag">Chain-of-Thought</span>
+        </div>
+      </div>
+      <div class="sk reveal reveal-d3">
+        <div class="sk-num">03</div>
+        <div class="sk-title" data-i18n="sk3.title">Data Engineering &amp; Databases</div>
+        <div class="tag-row">
+          <span class="tag">Supabase</span><span class="tag">PostgreSQL</span>
+          <span class="tag">JSON Typing</span>
+          <span class="tag" data-i18n="tag.audit">Audit Trails</span>
+          <span class="tag" data-i18n="tag.model">Data Modeling</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="sk reveal reveal-d4">
+        <div class="sk-num">04</div>
+        <div class="sk-title" data-i18n="sk4.title">Secure API &amp; Delivery Systems</div>
+        <div class="tag-row">
+          <span class="tag">OAuth2</span><span class="tag">REST APIs</span>
+          <span class="tag">Apify</span><span class="tag">Gmail API</span>
+          <span class="tag">Webhooks</span>
+          <span class="tag" data-i18n="tag.token">Token Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="s-wrap">
+    <p class="s-eyebrow reveal"          data-i18n="proj.eyebrow">Featured Project</p>
+    <h2 class="s-title reveal reveal-d1" data-i18n="proj.title">Case Study</h2>
+    <p class="s-sub reveal reveal-d2"    data-i18n="proj.sub">A production-deployed multi-tenant autonomous intelligence system.</p>
+
+    <div class="case reveal reveal-d2">
+      <div class="case-bar">
+        <div class="case-bar-left">
+          <span class="case-badge" data-i18n="case.badge">Case Study · Project 001</span>
+          <span class="case-role"  data-i18n="case.role">Lead Automation Architect · AI Solutions Engineer</span>
+        </div>
+        <div class="tech-row">
+          <span class="tech-chip">n8n</span>
+          <span class="tech-chip">Google Gemini AI</span>
+          <span class="tech-chip">Apify API</span>
+          <span class="tech-chip">Supabase · PostgreSQL</span>
+          <span class="tech-chip">Gmail OAuth2</span>
+        </div>
+      </div>
+
+      <div class="case-body">
+        <h3 class="case-title" data-i18n="case.title">The Review Intelligence Monitor: A Multi-Tenant AI Framework for Automated Reputation Triage</h3>
+
+        <div class="exec">
+          <div class="exec-lbl" data-i18n="exec.lbl">Executive Summary</div>
+          <p data-i18n="exec.p">An autonomous backend framework that transforms public feedback into immediate operational defense. The system shifts review management from a reactive, time-consuming chore into a proactive, automated early-warning radar — filtering out daily noise and elevating critical operational insights directly to decision-makers in real-time.</p>
+        </div>
+
+        <div class="sub-hd" data-i18n="arch.hd">Core Engineering Architecture</div>
+        <div class="arch-list">
+
+          <div class="arch-row">
+            <div class="arch-num-col"><div class="n-circle">01</div><div class="n-line"></div></div>
+            <div class="arch-content">
+              <div class="arch-layer"   data-i18n="a1.layer">Orchestration Engine</div>
+              <div class="arch-item-title" data-i18n-html="a1.title">n8n <span>— Central nervous system</span></div>
+              <div class="arch-desc"   data-i18n="a1.desc">Manages asynchronous API calls, condition-based data branching, and secure third-party OAuth2 authentication handshakes. Every workflow thread is coordinated through this single, observable layer.</div>
+            </div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-num-col"><div class="n-circle">02</div><div class="n-line"></div></div>
+            <div class="arch-content">
+              <div class="arch-layer"      data-i18n="a2.layer">Data Extraction Layer</div>
+              <div class="arch-item-title" data-i18n-html="a2.title">Apify API <span>— Scheduled extraction agents</span></div>
+              <div class="arch-desc"       data-i18n="a2.desc">Deploys automated background scraping agents on a scheduled interval to securely extract fresh customer reviews from localized public directories — fully headless, zero manual intervention.</div>
+            </div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-num-col"><div class="n-circle">03</div><div class="n-line"></div></div>
+            <div class="arch-content">
+              <div class="arch-layer"      data-i18n="a3.layer">Cognitive Analysis Layer</div>
+              <div class="arch-item-title" data-i18n-html="a3.title">Gemini LLM <span>— Reasoning and NLP engine</span></div>
+              <div class="arch-desc"       data-i18n="a3.desc">Executes deep NLP to dynamically analyze customer sentiment, identify operational threats, and construct strategic resolution playbooks — without hardcoded rules. Pure emergent intelligence applied to raw business data.</div>
+            </div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-num-col"><div class="n-circle">04</div><div class="n-line"></div></div>
+            <div class="arch-content">
+              <div class="arch-layer"      data-i18n="a4.layer">Data Persistence Layer</div>
+              <div class="arch-item-title" data-i18n-html="a4.title">Supabase · PostgreSQL <span>— Historical audit store</span></div>
+              <div class="arch-desc"       data-i18n="a4.desc">A relational back-end using optimized JSON data typing to catalog raw review payloads alongside structured AI analysis fields, creating a permanent, queryable long-term audit trail.</div>
+            </div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-num-col"><div class="n-circle">05</div></div>
+            <div class="arch-content">
+              <div class="arch-layer"      data-i18n="a5.layer">Escalation Layer</div>
+              <div class="arch-item-title" data-i18n-html="a5.title">Gmail OAuth2 API <span>— Crisis delivery mechanism</span></div>
+              <div class="arch-desc"       data-i18n="a5.desc">Secure enterprise-level OAuth2 validation executes real-time operational branching — instantly routing dynamic HTML emergency alerts to stakeholder inboxes when the AI detects a genuine high-priority crisis.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="case-rule"></div>
+
+        <div class="sub-hd" data-i18n="hl.hd">Architectural Highlights</div>
+        <div class="hl-grid">
+          <div class="hl">
+            <div class="hl-kicker" data-i18n="hl1.kicker">Design Principle</div>
+            <div class="hl-title"  data-i18n="hl1.title">The "Zero-UI" Delivery Principle</div>
+            <div class="hl-desc"   data-i18n="hl1.desc">Explicitly designed for busy, non-technical stakeholders. End-users need no new dashboard, no password, no onboarding. The entire product value arrives inside their existing workspace — their email inbox.</div>
+          </div>
+          <div class="hl">
+            <div class="hl-kicker" data-i18n="hl2.kicker">Architecture</div>
+            <div class="hl-title"  data-i18n="hl2.title">Multi-Tenant &amp; Plug-and-Play</div>
+            <div class="hl-desc"   data-i18n="hl2.desc">The data schema and AI context are entirely modular. Swapping a single input variable adapts the framework to different businesses or scales to dozens of locations without rewriting core workflow logic.</div>
+          </div>
+          <div class="hl">
+            <div class="hl-kicker" data-i18n="hl3.kicker">Intelligence</div>
+            <div class="hl-title"  data-i18n="hl3.title">Intelligent Conditional Branching</div>
+            <div class="hl-desc"   data-i18n="hl3.desc">Every review run is catalogued silently into the analytical database. Emergency escalation paths fire only when the AI identifies a genuine high-priority operational crisis — signal, not noise.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="s-wrap">
+    <p class="s-eyebrow reveal"          data-i18n="contact.eyebrow">Let's Work Together</p>
+    <h2 class="s-title reveal reveal-d1" data-i18n="contact.title">Get in Touch</h2>
+
+    <div class="contact-layout">
+      <div class="reveal reveal-d1">
+        <p class="cinfo-title" data-i18n-html="cinfo.title">Have a complex workflow<br>to <em>automate?</em></p>
+        <p class="cinfo-p" data-i18n="cinfo.p">I design and build autonomous backend systems for businesses that can't afford to fall behind. Let's talk about turning your operational bottlenecks into self-running infrastructure.</p>
+        <div class="social-col">
+          <a href="https://github.com/Sascco/sascco.build" target="_blank" rel="noopener" class="sl">
+            <div class="sl-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </div>
+            <span class="sl-name">GitHub</span>
+            <span class="sl-val">Sascco/sascco.build</span>
+            <span class="sl-arr">↗</span>
+          </a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" class="sl">
+            <div class="sl-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <span class="sl-name">LinkedIn</span>
+            <span class="sl-val">/in/sascco</span>
+            <span class="sl-arr">↗</span>
+          </a>
+          <a href="mailto:angelicamaria.riosp@gmail.com" class="sl">
+            <div class="sl-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <span class="sl-name">Email</span>
+            <span class="sl-val">angelicamaria.riosp@gmail.com</span>
+            <span class="sl-arr">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal reveal-d2">
+        <form class="cform" onsubmit="handleSubmit(event)">
+          <div class="frow">
+            <div class="fg">
+              <label class="flabel" for="fn" data-i18n="form.fname">First Name</label>
+              <input class="finput" type="text" id="fn" data-i18n-ph="form.fn.ph" placeholder="Ada" required>
+            </div>
+            <div class="fg">
+              <label class="flabel" for="ln" data-i18n="form.lname">Last Name</label>
+              <input class="finput" type="text" id="ln" data-i18n-ph="form.ln.ph" placeholder="Lovelace" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="flabel" for="em" data-i18n="form.email">Email</label>
+            <input class="finput" type="email" id="em" data-i18n-ph="form.em.ph" placeholder="ada@company.com" required>
+          </div>
+          <div class="fg">
+            <label class="flabel" for="msg" data-i18n="form.msg">Message</label>
+            <textarea class="ftextarea" id="msg" data-i18n-ph="form.msg.ph" placeholder="Describe the workflow or system you'd like built..." required></textarea>
+          </div>
+          <button type="submit" class="fsubmit">
+            <span data-i18n="form.submit">Send Message</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p id="fmsg" data-i18n="form.sent">✓ Sent — I'll be in touch within 24 hours.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-l" data-i18n="foot.l">Sascco.build · AI Solutions Engineering · 2025</span>
+  <span class="foot-r" data-i18n="foot.r">Built with precision.</span>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════
+   TRANSLATIONS
+════════════════════════════════════════════════ */
+const T = {
+  en: {
+    'nav.stack': 'stack', 'nav.work': 'work', 'nav.contact': 'contact', 'nav.cta': 'engage',
+    'scroll': 'scroll',
+    'hero.kicker': 'Open to new engagements',
+    'hero.h1': 'Autonomous<br>backend systems<br>that <em>solve</em> things.',
+    'hero.p': 'AI Solutions Engineer and Automation Architect building production-ready, self-operating systems for high-stakes business challenges — without the manual overhead.',
+    'hero.cta1': 'View Case Study', 'hero.cta2': 'Get in touch',
+    'hero.stat1.n': '5<em>+</em>', 'hero.stat1.l': 'Integrated system layers',
+    'hero.stat2.n': '0<em>-UI</em>', 'hero.stat2.l': 'Delivery principle',
+    'hero.stat3.l': 'Tenant scalability',
+    'skills.eyebrow': 'Technical Stack', 'skills.title': 'Engineering Expertise',
+    'skills.sub': 'End-to-end capability across orchestration, AI, data, and secure API development.',
+    'sk1.title': 'Workflow Orchestration', 'sk2.title': 'LLM Integration & Prompt Engineering',
+    'sk3.title': 'Data Engineering & Databases', 'sk4.title': 'Secure API & Delivery Systems',
+    'tag.async': 'Async Pipelines', 'tag.cond': 'Conditional Logic', 'tag.sched': 'Scheduled Triggers',
+    'tag.struct': 'Structured Output', 'tag.audit': 'Audit Trails', 'tag.model': 'Data Modeling',
+    'tag.token': 'Token Management',
+    'proj.eyebrow': 'Featured Project', 'proj.title': 'Case Study',
+    'proj.sub': 'A production-deployed multi-tenant autonomous intelligence system.',
+    'case.badge': 'Case Study · Project 001',
+    'case.role': 'Lead Automation Architect · AI Solutions Engineer',
+    'case.title': 'The Review Intelligence Monitor: A Multi-Tenant AI Framework for Automated Reputation Triage',
+    'exec.lbl': 'Executive Summary',
+    'exec.p': 'An autonomous backend framework that transforms public feedback into immediate operational defense. The system shifts review management from a reactive, time-consuming chore into a proactive, automated early-warning radar — filtering out daily noise and elevating critical operational insights directly to decision-makers in real-time.',
+    'arch.hd': 'Core Engineering Architecture',
+    'a1.layer': 'Orchestration Engine',
+    'a1.title': 'n8n <span>— Central nervous system</span>',
+    'a1.desc': 'Manages asynchronous API calls, condition-based data branching, and secure third-party OAuth2 authentication handshakes. Every workflow thread is coordinated through this single, observable layer.',
+    'a2.layer': 'Data Extraction Layer',
+    'a2.title': 'Apify API <span>— Scheduled extraction agents</span>',
+    'a2.desc': 'Deploys automated background scraping agents on a scheduled interval to securely extract fresh customer reviews from localized public directories — fully headless, zero manual intervention.',
+    'a3.layer': 'Cognitive Analysis Layer',
+    'a3.title': 'Gemini LLM <span>— Reasoning and NLP engine</span>',
+    'a3.desc': 'Executes deep NLP to dynamically analyze customer sentiment, identify operational threats, and construct strategic resolution playbooks — without hardcoded rules. Pure emergent intelligence applied to raw business data.',
+    'a4.layer': 'Data Persistence Layer',
+    'a4.title': 'Supabase · PostgreSQL <span>— Historical audit store</span>',
+    'a4.desc': 'A relational back-end using optimized JSON data typing to catalog raw review payloads alongside structured AI analysis fields, creating a permanent, queryable long-term audit trail.',
+    'a5.layer': 'Escalation Layer',
+    'a5.title': 'Gmail OAuth2 API <span>— Crisis delivery mechanism</span>',
+    'a5.desc': 'Secure enterprise-level OAuth2 validation executes real-time operational branching — instantly routing dynamic HTML emergency alerts to stakeholder inboxes when the AI detects a genuine high-priority crisis.',
+    'hl.hd': 'Architectural Highlights',
+    'hl1.kicker': 'Design Principle', 'hl1.title': 'The "Zero-UI" Delivery Principle',
+    'hl1.desc': 'Explicitly designed for busy, non-technical stakeholders. End-users need no new dashboard, no password, no onboarding. The entire product value arrives inside their existing workspace — their email inbox.',
+    'hl2.kicker': 'Architecture', 'hl2.title': 'Multi-Tenant & Plug-and-Play',
+    'hl2.desc': 'The data schema and AI context are entirely modular. Swapping a single input variable adapts the framework to different businesses or scales to dozens of locations without rewriting core workflow logic.',
+    'hl3.kicker': 'Intelligence', 'hl3.title': 'Intelligent Conditional Branching',
+    'hl3.desc': 'Every review run is catalogued silently into the analytical database. Emergency escalation paths fire only when the AI identifies a genuine high-priority operational crisis — signal, not noise.',
+    'contact.eyebrow': "Let's Work Together", 'contact.title': 'Get in Touch',
+    'cinfo.title': 'Have a complex workflow<br>to <em>automate?</em>',
+    'cinfo.p': "I design and build autonomous backend systems for businesses that can't afford to fall behind. Let's talk about turning your operational bottlenecks into self-running infrastructure.",
+    'form.fname': 'First Name', 'form.lname': 'Last Name', 'form.email': 'Email', 'form.msg': 'Message',
+    'form.fn.ph': 'Ada', 'form.ln.ph': 'Lovelace', 'form.em.ph': 'ada@company.com',
+    'form.msg.ph': "Describe the workflow or system you'd like built...",
+    'form.submit': 'Send Message',
+    'form.sent': "✓ Sent — I'll be in touch within 24 hours.",
+    'foot.l': 'Sascco.build · AI Solutions Engineering · 2025',
+    'foot.r': 'Built with precision.',
+  },
+  es: {
+    'nav.stack': 'stack', 'nav.work': 'trabajo', 'nav.contact': 'contacto', 'nav.cta': 'contratar',
+    'scroll': 'bajar',
+    'hero.kicker': 'Disponible para nuevos proyectos',
+    'hero.h1': 'Sistemas backend<br>autónomos que<br><em>resuelven</em> problemas.',
+    'hero.p': 'Ingeniero de Soluciones AI y Arquitecto de Automatización — construyendo sistemas autónomos, listos para producción, para desafíos empresariales críticos, sin la carga operativa manual.',
+    'hero.cta1': 'Ver Caso de Estudio', 'hero.cta2': 'Contáctame',
+    'hero.stat1.n': '5<em>+</em>', 'hero.stat1.l': 'Capas de sistema integradas',
+    'hero.stat2.n': '0<em>-UI</em>', 'hero.stat2.l': 'Principio de entrega',
+    'hero.stat3.l': 'Escalabilidad multi-tenant',
+    'skills.eyebrow': 'Stack Técnico', 'skills.title': 'Experiencia en Ingeniería',
+    'skills.sub': 'Capacidad integral en orquestación, IA, datos y desarrollo seguro de APIs.',
+    'sk1.title': 'Orquestación de Flujos', 'sk2.title': 'Integración LLM e Ingeniería de Prompts',
+    'sk3.title': 'Ingeniería de Datos y Bases de Datos', 'sk4.title': 'APIs Seguras y Sistemas de Entrega',
+    'tag.async': 'Pipelines Asíncronos', 'tag.cond': 'Lógica Condicional', 'tag.sched': 'Disparadores Programados',
+    'tag.struct': 'Salida Estructurada', 'tag.audit': 'Pistas de Auditoría', 'tag.model': 'Modelado de Datos',
+    'tag.token': 'Gestión de Tokens',
+    'proj.eyebrow': 'Proyecto Destacado', 'proj.title': 'Caso de Estudio',
+    'proj.sub': 'Un sistema de inteligencia autónomo multi-tenant desplegado en producción.',
+    'case.badge': 'Caso de Estudio · Proyecto 001',
+    'case.role': 'Arquitecto Principal de Automatización · Ingeniero de Soluciones AI',
+    'case.title': 'El Monitor de Inteligencia de Reseñas: Un Framework AI Multi-Tenant para la Gestión Automatizada de Reputación',
+    'exec.lbl': 'Resumen Ejecutivo',
+    'exec.p': 'Un framework backend autónomo que transforma el feedback público en defensa operativa inmediata. El sistema convierte la gestión de reseñas de una tarea reactiva en un radar de alerta temprana proactivo — filtrando el ruido diario y elevando los insights críticos directamente a los tomadores de decisiones en tiempo real.',
+    'arch.hd': 'Arquitectura de Ingeniería Principal',
+    'a1.layer': 'Motor de Orquestación',
+    'a1.title': 'n8n <span>— Sistema nervioso central</span>',
+    'a1.desc': 'Gestiona llamadas API asíncronas, bifurcación de datos basada en condiciones y handshakes de autenticación OAuth2 segura. Cada hilo del flujo de trabajo es coordinado a través de esta capa única y observable.',
+    'a2.layer': 'Capa de Extracción de Datos',
+    'a2.title': 'Apify API <span>— Agentes de extracción programados</span>',
+    'a2.desc': 'Despliega agentes de scraping automatizados en intervalos programados para extraer reseñas de clientes actualizadas de directorios públicos localizados — completamente sin interfaz, cero intervención manual.',
+    'a3.layer': 'Capa de Análisis Cognitivo',
+    'a3.title': 'Gemini LLM <span>— Motor de razonamiento y NLP</span>',
+    'a3.desc': 'Ejecuta NLP profundo para analizar dinámicamente el sentimiento del cliente, identificar amenazas operativas y construir playbooks de resolución estratégica — sin reglas codificadas. Inteligencia emergente aplicada a datos empresariales en bruto.',
+    'a4.layer': 'Capa de Persistencia de Datos',
+    'a4.title': 'Supabase · PostgreSQL <span>— Almacén de auditoría histórica</span>',
+    'a4.desc': 'Un backend relacional con tipado JSON optimizado para catalogar payloads de reseñas en bruto junto con campos de análisis AI estructurados, creando una auditoría histórica permanente y consultable.',
+    'a5.layer': 'Capa de Escalamiento',
+    'a5.title': 'Gmail OAuth2 API <span>— Mecanismo de entrega de crisis</span>',
+    'a5.desc': 'Validación OAuth2 de nivel empresarial que ejecuta bifurcación operativa en tiempo real — enrutando instantáneamente alertas de emergencia HTML dinámicas a las bandejas de entrada de los stakeholders cuando la IA detecta una crisis de alta prioridad.',
+    'hl.hd': 'Aspectos Destacados de la Arquitectura',
+    'hl1.kicker': 'Principio de Diseño', 'hl1.title': 'El Principio "Sin Interfaz"',
+    'hl1.desc': 'Diseñado para stakeholders ocupados y no técnicos. Sin nuevo dashboard, sin contraseña, sin incorporación. Todo el valor del producto llega a su espacio de trabajo existente — su bandeja de entrada.',
+    'hl2.kicker': 'Arquitectura', 'hl2.title': 'Multi-Tenant y Plug-and-Play',
+    'hl2.desc': 'El esquema de datos y el contexto AI son completamente modulares. Cambiar una sola variable adapta el framework a diferentes negocios o escala a docenas de ubicaciones sin reescribir la lógica central.',
+    'hl3.kicker': 'Inteligencia', 'hl3.title': 'Bifurcación Condicional Inteligente',
+    'hl3.desc': 'Cada ejecución de reseñas se cataloga silenciosamente en la base de datos analítica. Las rutas de escalamiento de emergencia se activan solo cuando la IA identifica una crisis operativa genuina de alta prioridad — señal, no ruido.',
+    'contact.eyebrow': 'Trabajemos Juntos', 'contact.title': 'Contáctame',
+    'cinfo.title': '¿Tienes un flujo de trabajo<br>complejo para <em>automatizar?</em>',
+    'cinfo.p': 'Diseño y construyo sistemas backend autónomos para empresas que no pueden permitirse quedarse atrás. Hablemos sobre cómo convertir tus cuellos de botella operativos en infraestructura autogestionada.',
+    'form.fname': 'Nombre', 'form.lname': 'Apellido', 'form.email': 'Correo Electrónico', 'form.msg': 'Mensaje',
+    'form.fn.ph': 'Ada', 'form.ln.ph': 'Lovelace', 'form.em.ph': 'ada@empresa.com',
+    'form.msg.ph': 'Describe el flujo de trabajo o sistema que te gustaría construir...',
+    'form.submit': 'Enviar Mensaje',
+    'form.sent': '✓ Enviado — Me pondré en contacto en 24 horas.',
+    'foot.l': 'Sascco.build · Ingeniería de Soluciones AI · 2025',
+    'foot.r': 'Construido con precisión.',
+  }
+};
+
+/* ── Apply translations ── */
+function applyLang(lang) {
+  const dict = T[lang];
+  // text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (dict[key] !== undefined) el.textContent = dict[key];
+  });
+  // html content (with <em>, <br>, <span>)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  // placeholder attributes
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (dict[key] !== undefined) el.placeholder = dict[key];
+  });
+  document.documentElement.lang = lang;
+}
+
+/* ── Language toggle ── */
+let currentLang = localStorage.getItem('lang') || 'en';
+const langActive = document.getElementById('langActive');
+const langOther  = document.getElementById('langOther');
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.documentElement.dataset.lang = lang;
+  langActive.textContent = lang.toUpperCase();
+  langOther.textContent  = lang === 'en' ? 'ES' : 'EN';
+  applyLang(lang);
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  setLang(currentLang === 'en' ? 'es' : 'en');
+});
+
+/* ── Theme toggle ── */
+let currentTheme = localStorage.getItem('theme') || 'dark';
+const iconMoon = document.getElementById('icon-moon');
+const iconSun  = document.getElementById('icon-sun');
+
+function setTheme(theme) {
+  currentTheme = theme;
+  localStorage.setItem('theme', theme);
+  document.documentElement.dataset.theme = theme;
+  if (theme === 'light') {
+    iconMoon.style.display = 'none';
+    iconSun.style.display  = '';
+  } else {
+    iconMoon.style.display = '';
+    iconSun.style.display  = 'none';
+  }
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
+
+/* Init from localStorage */
+setTheme(currentTheme);
+setLang(currentLang);
+
+/* ── Nav scroll ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 24);
+}, { passive: true });
+
+/* ── Mobile nav ── */
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navToggle.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+  });
+});
+
+/* ── Scroll reveal ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── Form ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.fsubmit');
+  const msg = document.getElementById('fmsg');
+  btn.querySelector('span').textContent = currentLang === 'es' ? 'Enviado ✓' : 'Sent ✓';
+  btn.style.cssText = 'background:transparent;color:var(--gold);border:1px solid var(--border-gold);cursor:default';
+  btn.disabled = true;
+  msg.style.display = 'block';
+}
+</script>
+</body>
+</html>
