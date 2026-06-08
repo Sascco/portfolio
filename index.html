@@ -315,6 +315,71 @@ html[data-theme="light"] .btn-primary { color: #fff; }
   font-weight: 300; max-width: 460px; line-height: 1.75;
 }
 
+/* ── ABOUT ── */
+#about { background: var(--bg-1); }
+.about-layout {
+  display: grid; grid-template-columns: 1.5fr 1fr;
+  gap: 4.5rem; margin-top: 3rem; align-items: start;
+}
+.about-pull {
+  border-left: 2px solid var(--gold);
+  padding: 1.2rem 1.65rem;
+  background: var(--gold-dim);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 2rem;
+}
+.about-pull p {
+  font-family: 'Cormorant', serif;
+  font-size: 1.15rem; font-style: italic;
+  color: var(--text); line-height: 1.65; font-weight: 500;
+}
+.about-p {
+  font-size: 14.5px; color: var(--text-2);
+  font-weight: 300; line-height: 1.88;
+  margin-bottom: 1.35rem;
+}
+.about-p:last-child { margin-bottom: 0; }
+.about-card {
+  border: 1px solid var(--border-md);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.about-card-header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 1.35rem 1.75rem;
+}
+.about-card-label {
+  font-family: 'Fira Code', monospace; font-size: 9.5px;
+  color: var(--gold); letter-spacing: 0.14em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.about-card-name {
+  font-family: 'Cormorant', serif; font-size: 1.3rem;
+  font-weight: 600; color: var(--text); letter-spacing: -0.01em;
+}
+.about-stats { border-bottom: 1px solid var(--border); }
+.about-stat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.05rem 1.75rem; background: var(--bg-1);
+  border-bottom: 1px solid var(--border); transition: background 0.18s;
+}
+.about-stat:last-child { border-bottom: none; }
+.about-stat:hover { background: var(--bg-card-2); }
+.about-stat-n {
+  font-family: 'Cormorant', serif; font-size: 1.8rem;
+  font-weight: 600; color: var(--gold); line-height: 1;
+}
+.about-stat-l {
+  font-family: 'Fira Code', monospace; font-size: 9px;
+  color: var(--text-3); letter-spacing: 0.1em;
+  text-align: right; text-transform: uppercase; line-height: 1.5;
+}
+.about-tags {
+  padding: 1.2rem 1.35rem; background: var(--bg-card);
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+  
 /* ── SKILLS ── */
 #skills { background: var(--bg-1); }
 .skills-grid {
